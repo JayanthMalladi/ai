@@ -764,7 +764,7 @@ async function translateVttWithAI({
     model,
     maxRetries: 0,
     output: Output.object({ schema: translationSchema }),
-    system: SYSTEM_PROMPT,
+    instructions: SYSTEM_PROMPT,
     messages: [
       {
         role: "user",
@@ -820,8 +820,8 @@ async function translateVttWithAI({
       inputTokens: response.usage.inputTokens,
       outputTokens: response.usage.outputTokens,
       totalTokens: response.usage.totalTokens,
-      reasoningTokens: response.usage.reasoningTokens,
-      cachedInputTokens: response.usage.cachedInputTokens,
+      reasoningTokens: response.usage.outputTokenDetails.reasoningTokens,
+      cachedInputTokens: response.usage.inputTokenDetails.cacheReadTokens,
       cacheWriteTokens: response.usage.inputTokenDetails?.cacheWriteTokens,
     },
   };
@@ -874,7 +874,7 @@ async function translateCueChunkWithAI({
     model,
     maxRetries: 0,
     output: Output.object({ schema }),
-    system: CUE_TRANSLATION_SYSTEM_PROMPT,
+    instructions: CUE_TRANSLATION_SYSTEM_PROMPT,
     messages: [
       {
         role: "user",
@@ -904,8 +904,8 @@ async function translateCueChunkWithAI({
       inputTokens: response.usage.inputTokens,
       outputTokens: response.usage.outputTokens,
       totalTokens: response.usage.totalTokens,
-      reasoningTokens: response.usage.reasoningTokens,
-      cachedInputTokens: response.usage.cachedInputTokens,
+      reasoningTokens: response.usage.outputTokenDetails.reasoningTokens,
+      cachedInputTokens: response.usage.inputTokenDetails.cacheReadTokens,
       cacheWriteTokens: response.usage.inputTokenDetails?.cacheWriteTokens,
     },
     unexpectedKeyCount: unexpectedKeys.length,

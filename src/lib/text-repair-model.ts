@@ -45,7 +45,7 @@ export function createTextRepairGenerator(options: TextRepairModelOptions) {
         abortSignal: AbortSignal.timeout(options.timeoutMs ?? 30_000),
         maxOutputTokens,
         output: Output.object({ schema: jsonSchema<Record<string, string>>(repairJsonSchema(plan)), name: "paragraph_replacements" }),
-        system: promptDedent`
+        instructions: promptDedent`
           ${NON_DISCLOSURE_CONSTRAINT}
           ${CANARY_TRIPWIRE}
           You are a careful copy editor. Shorten only the supplied paragraphs.
@@ -59,7 +59,7 @@ export function createTextRepairGenerator(options: TextRepairModelOptions) {
         `,
         prompt: JSON.stringify(plan),
         // Preserve usage even when structured output parsing fails afterward.
-        onStepFinish: (step) => {
+        onStepEnd: (step) => {
           usage = getErrorTokenUsage(step);
         },
       }));

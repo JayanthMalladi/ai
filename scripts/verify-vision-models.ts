@@ -76,11 +76,8 @@ async function verifyModel(
           description: "Structured metadata describing the storyboard image.",
           schema: descriptionSchema,
         }),
+        instructions: "You are a video content analyst. You receive storyboard images containing sequential frames from a video. Output only the JSON object; no markdown or extra text.",
         messages: [
-          {
-            role: "system",
-            content: "You are a video content analyst. You receive storyboard images containing sequential frames from a video. Output only the JSON object; no markdown or extra text.",
-          },
           {
             role: "user",
             content: [
@@ -88,7 +85,11 @@ async function verifyModel(
                 type: "text",
                 text: "Analyze the storyboard frames and generate metadata: a title (max 10 words), a description of what is visible across the frames (max 50 words), and up to 10 keywords.",
               },
-              { type: "image", image: imageUrl },
+              {
+                type: "file",
+                data: imageUrl,
+                mediaType: "image",
+              },
             ],
           },
         ],

@@ -755,7 +755,7 @@ async function extractBriefWithModel(args: {
         description: "Source-grounded editorial brief used to write every requested artifact.",
         schema: briefSchema,
       }),
-      system: args.systemPrompt,
+      instructions: args.systemPrompt,
       messages: [
         {
           role: "user",
@@ -825,7 +825,7 @@ async function generateArtifactWithModel(args: {
           description: "One finished artifact written from the editorial brief.",
           schema: artifactSchema,
         }),
-        system: args.systemPrompt,
+        instructions: args.systemPrompt,
         messages,
       }));
       const output = getGeneratedOutputWithContentPolicyHandling(response);

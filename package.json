@@ -124,13 +124,13 @@
     }
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^3.0.16",
-    "@ai-sdk/google": "^3.0.10",
-    "@ai-sdk/openai": "^3.0.124",
-    "@ai-sdk/openai-compatible": "^2.0.51",
+    "@ai-sdk/anthropic": "^4.0.0",
+    "@ai-sdk/google": "^4.0.0",
+    "@ai-sdk/openai": "^4.0.0",
+    "@ai-sdk/openai-compatible": "^3.0.0",
     "@mux/ts": "^15.5.0",
     "@noble/ciphers": "^2.1.1",
-    "ai": "^6.0.42",
+    "ai": "^7.0.0",
     "dedent": "^1.7.0",
     "dotenv": "^17.2.2",
     "dotenv-expand": "^12.0.3",

@@ -181,7 +181,7 @@ async function generateChaptersWithAI({
     model,
     maxRetries: 0,
     output: Output.object({ schema: chaptersSchema }),
-    system: systemPrompt,
+    instructions: systemPrompt,
     messages: [
       {
         role: "user",
@@ -219,8 +219,8 @@ async function generateChaptersWithAI({
       inputTokens: response.usage.inputTokens,
       outputTokens: response.usage.outputTokens,
       totalTokens: response.usage.totalTokens,
-      reasoningTokens: response.usage.reasoningTokens,
-      cachedInputTokens: response.usage.cachedInputTokens,
+      reasoningTokens: response.usage.outputTokenDetails.reasoningTokens,
+      cachedInputTokens: response.usage.inputTokenDetails.cacheReadTokens,
       cacheWriteTokens: response.usage.inputTokenDetails?.cacheWriteTokens,
     },
     unexpectedRootKeys,

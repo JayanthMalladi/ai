@@ -549,8 +549,8 @@ async function generateInsightsWithAI(
     model,
     maxRetries: 0,
     output: Output.object({ schema: engagementInsightsSchema }),
-    experimental_telemetry: { isEnabled: true },
-    system: systemPrompt,
+    telemetry: { isEnabled: true },
+    instructions: systemPrompt,
     messages: [
       {
         role: "user",
@@ -602,8 +602,8 @@ async function generateInsightsWithAI(
       inputTokens: response.usage.inputTokens,
       outputTokens: response.usage.outputTokens,
       totalTokens: response.usage.totalTokens,
-      reasoningTokens: response.usage.reasoningTokens,
-      cachedInputTokens: response.usage.cachedInputTokens,
+      reasoningTokens: response.usage.outputTokenDetails.reasoningTokens,
+      cachedInputTokens: response.usage.inputTokenDetails.cacheReadTokens,
       cacheWriteTokens: response.usage.inputTokenDetails?.cacheWriteTokens,
     },
     unexpectedRootKeys,

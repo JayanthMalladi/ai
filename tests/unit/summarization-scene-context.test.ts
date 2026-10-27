@@ -126,16 +126,17 @@ describe("summarization scene context", () => {
     expect(result.storyboardUrl).toBe("https://image.example/storyboard.jpg");
 
     const request = vi.mocked(generateText).mock.calls[0][0];
-    expect(request.system).toContain("Ordered scene context");
-    expect(request.system).toContain("Use all provided evidence together");
+    expect(request.instructions).toContain("Ordered scene context");
+    expect(request.instructions).toContain("Use all provided evidence together");
     expect(request.messages[0].content).toEqual([
       expect.objectContaining({
         type: "text",
         text: expect.stringContaining("<scene_context format=\"json\" order=\"scene_index_ascending\">"),
       }),
       {
-        type: "image",
-        image: "https://image.example/storyboard.jpg",
+        type: "file",
+        data: "https://image.example/storyboard.jpg",
+        mediaType: "image",
       },
     ]);
     expect(request.messages[0].content[0].text).toContain(JSON.stringify(sceneContext));
@@ -163,8 +164,9 @@ describe("summarization scene context", () => {
     expect(request.messages[0].content).toEqual([
       expect.objectContaining({ type: "text", text: expect.stringContaining("<scene_context") }),
       {
-        type: "image",
-        image: "https://image.example/storyboard.jpg",
+        type: "file",
+        data: "https://image.example/storyboard.jpg",
+        mediaType: "image",
       },
     ]);
   });
@@ -174,8 +176,8 @@ describe("summarization scene context", () => {
 
     expect(getStoryboardUrl).toHaveBeenCalledOnce();
     const request = vi.mocked(generateText).mock.calls[0][0];
-    expect(request.system).toContain("storyboard interpretation");
-    expect(request.system).not.toContain("ordered scene context");
+    expect(request.instructions).toContain("storyboard interpretation");
+    expect(request.instructions).not.toContain("ordered scene context");
     expect(request.messages[0].content[0].text).not.toContain("<scene_context");
     expect(request.messages[0].content[0].text).toContain(
       "Analyze the storyboard frames and generate metadata that captures the essence of the video content.",
@@ -194,8 +196,9 @@ describe("summarization scene context", () => {
     expect(request.messages[0].content).toEqual([
       expect.objectContaining({ type: "text", text: expect.stringContaining("<scene_context") }),
       {
-        type: "image",
-        image: "https://image.example/storyboard.jpg",
+        type: "file",
+        data: "https://image.example/storyboard.jpg",
+        mediaType: "image",
       },
     ]);
     expect(request.messages[0].content[0].text).not.toContain("<transcript");

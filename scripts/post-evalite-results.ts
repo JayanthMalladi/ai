@@ -1010,8 +1010,8 @@ async function generateWorkflowInsights(suites: EvaliteSuite[], options: Generat
     const result = await generateText({
       model,
       output: Output.object({ schema: WorkflowInsightSchema }),
+      instructions: systemPrompt,
       messages: [
-        { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
       ],
     });

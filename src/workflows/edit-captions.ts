@@ -534,7 +534,7 @@ async function identifyProfanityWithAI({
     model,
     maxRetries: 0,
     output: Output.object({ schema: profanityDetectionSchema }),
-    system: SYSTEM_PROMPT,
+    instructions: SYSTEM_PROMPT,
     messages: [
       {
         role: "user",
@@ -557,8 +557,8 @@ async function identifyProfanityWithAI({
       inputTokens: response.usage.inputTokens,
       outputTokens: response.usage.outputTokens,
       totalTokens: response.usage.totalTokens,
-      reasoningTokens: response.usage.reasoningTokens,
-      cachedInputTokens: response.usage.cachedInputTokens,
+      reasoningTokens: response.usage.outputTokenDetails.reasoningTokens,
+      cachedInputTokens: response.usage.inputTokenDetails.cacheReadTokens,
       cacheWriteTokens: response.usage.inputTokenDetails?.cacheWriteTokens,
     },
     unexpectedKeys,

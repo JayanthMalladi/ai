@@ -290,14 +290,18 @@ async function analyzeStoryboard({
     model,
     maxRetries: 0,
     output: Output.object({ schema: burnedInCaptionsSchema }),
-    experimental_telemetry: { isEnabled: true },
-    system: systemPrompt,
+    telemetry: { isEnabled: true },
+    instructions: systemPrompt,
     messages: [
       {
         role: "user",
         content: [
           { type: "text", text: userPrompt },
-          { type: "image", image: imageDataUrl },
+          {
+            type: "file",
+            data: imageDataUrl,
+            mediaType: "image",
+          },
         ],
       },
     ],
@@ -325,8 +329,8 @@ async function analyzeStoryboard({
       inputTokens: response.usage.inputTokens,
       outputTokens: response.usage.outputTokens,
       totalTokens: response.usage.totalTokens,
-      reasoningTokens: response.usage.reasoningTokens,
-      cachedInputTokens: response.usage.cachedInputTokens,
+      reasoningTokens: response.usage.outputTokenDetails.reasoningTokens,
+      cachedInputTokens: response.usage.inputTokenDetails.cacheReadTokens,
       cacheWriteTokens: response.usage.inputTokenDetails?.cacheWriteTokens,
     },
     unexpectedKeys,

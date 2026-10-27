@@ -40,8 +40,8 @@ describe("aggregateTokenUsage", () => {
       outputTokens: 11,
       totalTokens: 25,
     });
-    expect(result.reasoningTokens).toBeUndefined();
-    expect(result.cachedInputTokens).toBeUndefined();
+    expect(result.outputTokenDetails.reasoningTokens).toBeUndefined();
+    expect(result.inputTokenDetails.cacheReadTokens).toBeUndefined();
   });
 
   it("sums optional token fields when at least one usage reports them", () => {

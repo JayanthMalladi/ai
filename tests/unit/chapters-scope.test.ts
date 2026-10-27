@@ -146,7 +146,7 @@ describe("generateChapters scene context", () => {
     expect(prompt).toContain("&lt;topic&gt;");
     expect(prompt).toContain("start_ms divided by 1000");
     expect(prompt).toContain("never split a scene");
-    expect(vi.mocked(generateText).mock.calls[0][0].system).toContain(
+    expect(vi.mocked(generateText).mock.calls[0][0].instructions).toContain(
       "Use the scene progression to choose logical chapter groupings",
     );
   });
@@ -180,7 +180,7 @@ describe("generateChapters scene context", () => {
     const prompt = vi.mocked(generateText).mock.calls[0][0].messages[0].content;
     expect(prompt).not.toContain("<scene_context");
     expect(prompt).not.toContain("never split a scene");
-    expect(vi.mocked(generateText).mock.calls[0][0].system).not.toContain("scene progression");
+    expect(vi.mocked(generateText).mock.calls[0][0].instructions).not.toContain("scene progression");
   });
 
   it("filters out-of-range starts before aligning scoped chapters", async () => {

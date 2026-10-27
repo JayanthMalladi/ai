@@ -116,7 +116,7 @@ function userText(index: number): string {
 }
 
 function systemPrompt(index: number): string {
-  return call(index).system;
+  return call(index).instructions;
 }
 
 beforeEach(() => {
@@ -186,7 +186,11 @@ describe("generateText", () => {
 
     expect(call(0).messages[0].content).toEqual([
       { type: "text", text: expect.stringContaining("A grounded source about reliable video workflows.") },
-      { type: "image", image: "https://image.mux.com/playback-123/storyboard.png" },
+      {
+        type: "file",
+        data: "https://image.mux.com/playback-123/storyboard.png",
+        mediaType: "image",
+      },
     ]);
     expect(userText(0)).toContain("<transcript format=\"plain text\">");
     expect(userText(0)).toContain("Intended audience: Video developers");
@@ -255,10 +259,26 @@ describe("generateText", () => {
 
     expect(getShotsForAsset).toHaveBeenCalledWith("asset-123", { credentials: undefined });
     expect(call(0).messages[0].content.slice(1)).toEqual([
-      { type: "image", image: "https://image.mux.com/playback-123/storyboard.png" },
-      { type: "image", image: "shot-0" },
-      { type: "image", image: "shot-20" },
-      { type: "image", image: "shot-30" },
+      {
+        type: "file",
+        data: "https://image.mux.com/playback-123/storyboard.png",
+        mediaType: "image",
+      },
+      {
+        type: "file",
+        data: "shot-0",
+        mediaType: "image",
+      },
+      {
+        type: "file",
+        data: "shot-20",
+        mediaType: "image",
+      },
+      {
+        type: "file",
+        data: "shot-30",
+        mediaType: "image",
+      },
     ]);
   });
 
@@ -277,7 +297,11 @@ describe("generateText", () => {
 
     expect(getShotsForAsset).toHaveBeenCalledTimes(1);
     expect(call(0).messages[0].content.slice(1)).toEqual([
-      { type: "image", image: "https://image.mux.com/playback-123/storyboard.png" },
+      {
+        type: "file",
+        data: "https://image.mux.com/playback-123/storyboard.png",
+        mediaType: "image",
+      },
     ]);
     expect(result.usage?.metadata?.thumbnailCount).toBe(1);
     expect(warn).toHaveBeenCalledWith(expect.stringContaining("Using the storyboard only."));

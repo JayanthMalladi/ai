@@ -1,5 +1,5 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createGoogle } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 
@@ -27,10 +27,10 @@ type EvalSupportedProvider = Exclude<SupportedProvider, "baseten" | "openai-comp
 // Model ID unions inferred from ai-sdk provider call signatures
 type OpenAIModelId = Parameters<ReturnType<typeof createOpenAI>["chat"]>[0];
 type AnthropicModelId = Parameters<ReturnType<typeof createAnthropic>["chat"]>[0];
-type GoogleModelId = Parameters<ReturnType<typeof createGoogleGenerativeAI>["chat"]>[0];
+type GoogleModelId = Parameters<ReturnType<typeof createGoogle>["chat"]>[0];
 
 type OpenAIEmbeddingModelId = Parameters<ReturnType<typeof createOpenAI>["embedding"]>[0];
-type GoogleEmbeddingModelId = Parameters<ReturnType<typeof createGoogleGenerativeAI>["textEmbeddingModel"]>[0];
+type GoogleEmbeddingModelId = Parameters<ReturnType<typeof createGoogle>["textEmbeddingModel"]>[0];
 
 export interface ModelIdByProvider {
   "openai": OpenAIModelId;
@@ -789,7 +789,7 @@ export async function createLanguageModelFromConfig<P extends SupportedProvider 
     }
     case "google": {
       const apiKey = resolveProviderApiKeyFromCredentials("google", resolvedCredentials);
-      const google = createGoogleGenerativeAI({ apiKey });
+      const google = createGoogle({ apiKey });
       return google(modelId);
     }
     default: {
@@ -833,7 +833,7 @@ export async function createEmbeddingModelFromConfig<
     }
     case "google": {
       const apiKey = resolveProviderApiKeyFromCredentials("google", resolvedCredentials);
-      const google = createGoogleGenerativeAI({ apiKey });
+      const google = createGoogle({ apiKey });
       return google.textEmbeddingModel(modelId);
     }
     default: {
@@ -903,7 +903,7 @@ export function resolveLanguageModel<P extends SupportedProvider = SupportedProv
     case "google": {
       const apiKey = env.GOOGLE_GENERATIVE_AI_API_KEY;
       requireEnv(apiKey, "GOOGLE_GENERATIVE_AI_API_KEY");
-      const google = createGoogleGenerativeAI({
+      const google = createGoogle({
         apiKey,
       });
 
@@ -967,7 +967,7 @@ export function resolveEmbeddingModel<P extends SupportedEmbeddingProvider = "op
     case "google": {
       const apiKey = env.GOOGLE_GENERATIVE_AI_API_KEY;
       requireEnv(apiKey, "GOOGLE_GENERATIVE_AI_API_KEY");
-      const google = createGoogleGenerativeAI({
+      const google = createGoogle({
         apiKey,
       });
 
